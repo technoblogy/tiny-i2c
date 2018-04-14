@@ -1,7 +1,6 @@
 /* Tiny I2C
 
-   David Johnson-Davies - www.technoblogy.com - 28th March 2018
-   ATtiny85 @ 8 MHz (internal oscillator; BOD disabled)
+   David Johnson-Davies - www.technoblogy.com - 14th April 2018
    
    CC BY 4.0
    Licensed under a Creative Commons Attribution 4.0 International license: 
