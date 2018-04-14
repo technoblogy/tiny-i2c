@@ -1,14 +1,8 @@
-# Arduino TinyI2C Library 
+# Arduino TinyI2C Library
 David Johnson-Davies 14th April 2018  
 
-#### CC BY-SA
-This work is licensed under the Creative Commons Attribution-ShareAlike 3.0
-Unported License. To view a copy of this license, visit
-http://creativecommons.org/licenses/by-sa/3.0/ or send a letter to Creative
-Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
-
 ## Description
-*TinyI2C* is a set of minimal I2C Master routines for ATtiny processors. They allow any ATtiny processor with a hardware USI to connect to I2C peripherals.
+*TinyI2C* is a set of minimal I2C Master routines for ATtiny processors with a hardware USI.
 
 The main difference between these routines and most other Tiny Wire libraries is that these don't use buffers, so have minimal memory requirements, and don't impose a 32-byte limit on transmissions.
 
@@ -48,7 +42,7 @@ These routines are based on the code described by Atmel Application Note AVR310 
 
 Here's a description of the Minimal Tiny I2C routines:
 
-### I2Cstart(address, type)
+### TinyI2C.start(address, type)
 
 Starts a transaction with the slave device with the specified address, and specifies if the transaction is going to be a read or a write. It returns a true/false value to say whether the start was successful.
 
@@ -58,25 +52,25 @@ The **type** parameter can have the following values:
 * 1 to 32767: Read from the device. The number specifies how many reads you are going to do.
 * -1: Read an unspecified number of bytes from the device.
 
-If **type** is specified as -1 you must identify the last read by calling **I2Creadlast()** rather than **I2Cread()**.
+If **type** is specified as -1 you must identify the last read by calling **TinyI2C.readLast()** rather than **TinyI2C.read()**.
 
-### I2Cwrite(data)
+### TinyI2C.write(data)
 
 Writes a byte of data to a slave device. It returns a true/false value to say whether the write was successful.
 
-### I2Cread()
+### TinyI2C.read()
 
 Returns the result of reading from a slave device.
 
-### I2Creadlast()
+### TinyI2C.readLast()
 
 Returns the result of reading from a slave device and tells the slave to stop sending.
 
-### I2Crestart(address, type);
+### TinyI2C.restart(address, type);
 
-Does a restart. The **type** parameter is the same as for **I2Cstart()**.
+Does a restart. The **type** parameter is the same as for **TinyI2C.start()**.
 
-### I2Cstop()
+### TinyI2C.stop()
 
 Ends the transaction.
 
@@ -86,35 +80,35 @@ Ends the transaction.
 
 Writing to a slave is straightforward: for example, to write one byte:
 
-    I2Cstart(Address, 0);
-    I2Cwrite(byte);
-    I2Cstop();
+    TinyI2C.start(Address, 0);
+    TinyI2C.write(byte);
+    TinyI2C.stop();
 
 ### Reading from a slave
 
-The Minimal Tiny I2C routines allow you to identify the last byte read from a slave in either of two ways:
+The TinyI2C routines allow you to identify the last byte read from a slave in either of two ways:
 
-You can specify the total number of bytes you are going to read, as the second parameter of **I2Cstart()**. With this approach **I2Cread()** will automatically terminate the last call with a NAK:
+You can specify the total number of bytes you are going to read, as the second parameter of **TinyI2C.start()**. With this approach **TinyI2C.read()** will automatically terminate the last call with a NAK:
 
-    I2Cstart(Address, 2);
-    int mins = I2Cread();
-    int hrs = I2Cread();
-    I2Cstop();
+    TinyI2C.start(Address, 2);
+    int mins = TinyI2C.read();
+    int hrs = TinyI2C.read();
+    TinyI2C.stop();
 
-Alternatively you can just specify the second parameter of **I2Cstart()** as -1, and explicitly identify the last **I2Cread** command by calling **I2Creadlast()**:
+Alternatively you can just specify the second parameter of **TinyI2C.start()** as -1, and explicitly identify the last **TinyI2C.read** command by calling **TinyI2C.readLast()**:
 
-    I2Cstart(Address, -1);
-    int mins = I2Cread();
-    int hrs = I2Creadlast();
-    I2Cstop();
+    TinyI2C.start(Address, -1);
+    int mins = TinyI2C.read();
+    int hrs = TinyI2C.readLast();
+    TinyI2C.stop();
 
 ### Writing and reading
 
-Many I2C devices require you to write one or more bytes before reading, to specify the register you want to read from; the read should be introduced with an **I2Crestart()** call; for example:
+Many I2C devices require you to write one or more bytes before reading, to specify the register you want to read from; the read should be introduced with an **vrestart()** call; for example:
 
-    I2Cstart(Address, 0);
-    I2Cwrite(1);
-    I2Crestart(Address, 2);
-    int mins = I2Cread();
-    int hrs = I2Cread();
-    I2Cstop();
+    TinyI2C.start(Address, 0);
+    TinyI2C.write(1);
+    TinyI2C.restart(Address, 2);
+    int mins = TinyI2C.read();
+    int hrs = TinyI2C.read();
+    TinyI2C.stop();
