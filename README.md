@@ -1,4 +1,4 @@
-# Arduino TinyI2C Library
+# TinyI2C Library
 David Johnson-Davies 14th April 2018  
 
 ## Description
