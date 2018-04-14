@@ -1,0 +1,8 @@
+TinyI2C	KEYWORD1
+init	KEYWORD2
+read	KEYWORD2
+readLast	KEYWORD2
+write	KEYWORD2
+start	KEYWORD2
+restart	KEYWORD2
+stop	KEYWORD2
