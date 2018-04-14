@@ -2,7 +2,7 @@
 David Johnson-Davies 14th April 2018  
 
 ## Description
-*TinyI2C* is a set of minimal I2C Master routines for ATtiny processors with a hardware USI.
+**TinyI2C** is a set of minimal I2C Master routines for ATtiny processors with a hardware USI.
 
 The main difference between these routines and most other Tiny Wire libraries is that these don't use buffers, so have minimal memory requirements, and don't impose a 32-byte limit on transmissions.
 
@@ -40,7 +40,7 @@ These routines are based on the code described by Atmel Application Note AVR310 
 
 ## Description
 
-Here's a description of the Minimal Tiny I2C routines:
+Here's a description of the TinyI2C routines:
 
 ### TinyI2C.start(address, type)
 
@@ -104,7 +104,7 @@ Alternatively you can just specify the second parameter of **TinyI2C.start()** a
 
 ### Writing and reading
 
-Many I2C devices require you to write one or more bytes before reading, to specify the register you want to read from; the read should be introduced with an **vrestart()** call; for example:
+Many I2C devices require you to write one or more bytes before reading, to specify the register you want to read from; the read should be introduced with an **TinyI2C.restart()** call; for example:
 
     TinyI2C.start(Address, 0);
     TinyI2C.write(1);
