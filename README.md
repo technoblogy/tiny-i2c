@@ -64,7 +64,7 @@ Returns the result of reading from a slave device.
 
 ### TinyI2C.readLast()
 
-Returns the result of reading from a slave device and tells the slave to stop sending.
+Returns the result of reading from a slave device and tells the slave to stop sending. You only need to use **TinyI2C.readlast()** if you called **TinyI2C.start()** or **TinyI2C.restart()** with **type** set to -1.
 
 ### TinyI2C.restart(address, type);
 
