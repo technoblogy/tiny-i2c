@@ -58,7 +58,7 @@ uint8_t TinyI2CMaster::read (void) {
   if ((I2Ccount != 0) && (I2Ccount != -1)) I2Ccount--;
   
   /* Read a byte */
-  DDR_USI &= ~1<<PIN_USI_SDA;                 // Enable SDA as input.
+  DDR_USI &= ~(1<<PIN_USI_SDA);    // Enable SDA as input. (MMOLE: copied parenthesis from write() @line #83)
   uint8_t data = TinyI2CMaster::transfer(USISR_8bit);
 
   /* Prepare to generate ACK (or NACK in case of End Of Transmission) */
