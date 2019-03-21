@@ -1,5 +1,4 @@
 # TinyI2C Library
-David Johnson-Davies 14th April 2018  
 
 ## Description
 **TinyI2C** is a set of minimal I2C Master routines for ATtiny processors with a hardware USI.
@@ -16,7 +15,7 @@ In addition, these routines differ from the Tiny Wire library routines in the fo
 
 These routines don't use buffers, reducing their RAM requirements to a couple of bytes. The standard Wire libraries use 32-byte send and receive buffers requiring at least 32 bytes, which isn't such a problem on the ATmega chips, but on an ATtiny85 this is a significant part of the available RAM.
 
-I've always been baffled about why the standard wire libraries use 32-byte send and receive buffers, and I haven't been able to find an answer to this on the web. As far as I can see there's no need for buffering as the I2C protocol incorporates handshaking, using the ACK/NACK pulses.
+I've always been puzzled about why the standard wire libraries use 32-byte send and receive buffers, and I haven't been able to find an answer to this on the web. As far as I can see there's no need for buffering as the I2C protocol incorporates handshaking, using the ACK/NACK pulses.
 
 ### Unlimited transmission length
 
@@ -64,7 +63,7 @@ Returns the result of reading from a slave device.
 
 ### TinyI2C.readLast()
 
-Returns the result of reading from a slave device and tells the slave to stop sending.
+Returns the result of reading from a slave device and tells the slave to stop sending. You only need to use **TinyI2C.readlast()** if you called **TinyI2C.start()** or **TinyI2C.restart()** with **type** set to -1.
 
 ### TinyI2C.restart(address, type);
 
