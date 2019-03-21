@@ -67,6 +67,7 @@ void loop () {
   WriteWord(Colon);
   WriteWord(Segment[mins / 16]);
   WriteWord(Segment[mins % 16]);
+  TinyI2C.stop();
   // Flash the colon
   Colon = 2 - Colon;
   delay(1000);
