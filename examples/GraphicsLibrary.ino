@@ -1,4 +1,4 @@
-/* Tiny Graphics Library using TinyI2C library
+/* Tiny Graphics Library using TinyI2C library - see http://www.technoblogy.com/show?23OS
 
    David Johnson-Davies - www.technoblogy.com - 6th June 2018
    ATtiny85 @ 8 MHz (internal oscillator; BOD disabled)
@@ -10,7 +10,7 @@
 
 #include <TinyI2CMaster.h>
 
-// OLED display **********************************************
+// OLED display - note only works with displays based on the SH1106 driver
 
 // Pins
 int const sda = 0;
