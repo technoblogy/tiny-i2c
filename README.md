@@ -5,6 +5,11 @@
 
 The main difference between these routines and most other Tiny Wire libraries is that these don't use buffers, so have minimal memory requirements, and don't impose a 32-byte limit on transmissions.
 
+Note that you need to use Spence Konde's ATTiny Core for these routines to work; otherwise you'll get errors such as:
+
+    error: 'PIN_USI_CL' was not declared in this scope
+    error: 'PIN_USI_SCL' was not declared in this scope
+
 ## Introduction
 
 I've named these routines TinyI2C for two reasons: to distinguish them from the existing TinyWire libraries, such as the one included in Spence Konde's ATTiny Core, and to emphasise that these routines don't follow the Arduino Wire library naming conventions.
