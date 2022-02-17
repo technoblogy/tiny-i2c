@@ -12,10 +12,6 @@
 
 // OLED display - note only works with displays based on the SH1106 driver
 
-// Pins
-int const sda = 0;
-int const scl = 2;
-
 // Constants
 int const address = 60;
 int const commands = 0x00;
