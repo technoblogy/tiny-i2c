@@ -3,7 +3,7 @@
 ## Description
 **TinyI2C** is a set of minimal I2C routines that allow just about any Microchip/Atmel AVR processor to connect to I2C peripherals.
 
-For more information and examples see [Tiny I2C Routines for AVR Microcontrollers](http://www.technoblogy.com/show?3UF0).
+For more information and examples see [Tiny I2C Routines for all AVR Microcontrollers](http://www.technoblogy.com/show?3UF0).
 
 The main difference between these routines and the standard Arduino Wire library is that these don't use buffers, so have much smaller memory requirements and don't impose a limit on transmissions.
 
@@ -35,6 +35,8 @@ A new version of the TWI peripheral is featured in:
 * The latest ATtiny 0-series, 1-series, and 2-series processors, such as the ATtiny414.
 * The 0-series ATmega chips, such as the ATmega4809.
 * The AVR DA and DB family, such as the AVR128DA48.
+
+These universal Tiny I2C routines provide master I2C support to all three generations of AVR processors.
 
 ## Differences from Arduino Wire
 
