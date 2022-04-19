@@ -1,7 +1,6 @@
 /* Tiny Graphics Library using TinyI2C library - see http://www.technoblogy.com/show?23OS
 
-   David Johnson-Davies - www.technoblogy.com - 6th June 2018
-   ATtiny85 @ 8 MHz (internal oscillator; BOD disabled)
+   David Johnson-Davies - www.technoblogy.com - 16th February 2022
    
    CC BY 4.0
    Licensed under a Creative Commons Attribution 4.0 International license: 
@@ -10,7 +9,7 @@
 
 #include <TinyI2CMaster.h>
 
-// OLED display - note only works with displays based on the SH1106 driver
+// OLED display **********************************************
 
 // Constants
 int const address = 60;
@@ -240,7 +239,7 @@ void setup() {
   InitDisplay();
 }
 
-const int Now = 1547;                     // To set the time; eg 15:47
+const int Now = 1234;                     // To set the time; eg 12:34
 unsigned long StartMins = (unsigned long)((Now/100)*60 + (Now%100));
 
 
@@ -275,9 +274,7 @@ void loop () {
     while ((unsigned long) ((StartMins + millis()/60000)/15)%96 == SampleNo);
     // Time to take a new reading
     SampleNo = (SampleNo+1)%96;
-    int Temperature = (analogRead(A2)*25)/233;  // In half degrees 
+    int Temperature = (analogRead(A0)*25)/233;  // In half degrees 
     PlotPoint(SampleNo+x1, Temperature-10+y1);
   }
 }
-
-

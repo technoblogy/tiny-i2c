@@ -1,118 +1,153 @@
 # TinyI2C Library
 
 ## Description
-**TinyI2C** is a set of minimal I2C Master routines for ATtiny processors with a hardware USI.
+**TinyI2C** is a set of minimal I2C routines that allow just about any Microchip/Atmel AVR processor to connect to I2C peripherals.
 
-The main difference between these routines and most other Tiny Wire libraries is that these don't use buffers, so have minimal memory requirements, and don't impose a 32-byte limit on transmissions.
+For more information and examples see [Tiny I2C Routines for AVR Microcontrollers](http://www.technoblogy.com/show?3UF0).
 
-Note that you need to use Spence Konde's ATTiny Core for these routines to work; otherwise you'll get errors such as:
+The main difference between these routines and the standard Arduino Wire library is that these don't use buffers, so have much smaller memory requirements and don't impose a limit on transmissions.
 
-    error: 'PIN_USI_CL' was not declared in this scope
-    error: 'PIN_USI_SCL' was not declared in this scope
+## Compatibility
+These I2C routines are designed to provide master I2C functionality for all Microchip/Atmel AVR processors. Over the years different generations of AVR chips have featured three different, incompatible peripherals to handle I2C:
 
-## Introduction
+#### Universal Serial interface (USI) peripheral
 
-I've named these routines TinyI2C for two reasons: to distinguish them from the existing TinyWire libraries, such as the one included in Spence Konde's ATTiny Core, and to emphasise that these routines don't follow the Arduino Wire library naming conventions.
+The USI provides master I2C support to ATtiny processors with a USI peripheral, namely:
 
-In addition, these routines differ from the Tiny Wire library routines in the following ways:
+* ATtiny25/45/85 and ATtiny24/44/84
+* ATtiny261/461/861
+* ATtiny87/167
+* ATtiny2313/4313
+* ATtiny1634
 
-### Low memory requirements
 
-These routines don't use buffers, reducing their RAM requirements to a couple of bytes. The standard Wire libraries use 32-byte send and receive buffers requiring at least 32 bytes, which isn't such a problem on the ATmega chips, but on an ATtiny85 this is a significant part of the available RAM.
+#### 2-Wire Serial Interface (TWI) peripheral
 
-I've always been puzzled about why the standard wire libraries use 32-byte send and receive buffers, and I haven't been able to find an answer to this on the web. As far as I can see there's no need for buffering as the I2C protocol incorporates handshaking, using the ACK/NACK pulses.
+This provides full master I2C support, and is featured in:
 
-### Unlimited transmission length
+* Most of the original ATmega processors, such as the ATmega328P used in the Arduino Uno, ATmega2560 used in the Arduino Mega 2560, and the ATmega1284P.
+* Two unusual ATtiny processors that provide a TWI peripheral, the ATtiny48 and 88.
 
-These routines don't impose any limit on the length of transmissions. The standard Wire libraries limit the length of any transmission to 32 bytes. This isn't a problem with many I2C applications, such as reading the temperature from a sensor, but it is a problem with applications such as driving an I2C OLED display, which requires you to send 1024 bytes to update the whole display.
+#### Two-Wire Interface (TWI) peripheral
 
-### Flexible read
+A new version of the TWI peripheral is featured in:
+
+* The latest ATtiny 0-series, 1-series, and 2-series processors, such as the ATtiny414.
+* The 0-series ATmega chips, such as the ATmega4809.
+* The AVR DA and DB family, such as the AVR128DA48.
+
+## Differences from Arduino Wire
+
+I've named these routines TinyI2C for two reasons: to distinguish them from the existing Wire libraries, such as the ones included in the Arduino and Spence Konde's cores, and to emphasise that these routines don't follow the Arduino Wire library naming conventions.
+
+In addition, these routines differ from the Arduino Wire library routines in the following ways:
+
+#### Low memory requirements
+
+These routines don't use buffers, reducing their RAM requirements to a couple of bytes. The standard 0-series ATmega Wire library uses 128-byte send and receive buffers, and the 0-series and 1-series ATtiny Wire libraries use 32-byte or 16-byte buffers, which on the smaller chips is a significant part of the available RAM. As far as I can see there's no need for buffering as the I2C protocol incorporates handshaking, using the ACK/NACK pulses.
+
+#### Unlimited transmission length
+
+These routines don't impose any limit on the length of transmissions. The standard Wire libraries limit the length of any transmission to the size of the buffer. This isn't a problem with many I2C applications, such as reading the temperature from a sensor, but it is a problem with applications such as driving an I2C OLED display, which requires you to send 1024 bytes to update the whole display.
+
+#### Flexible read
 
 These routines allow you to specify in advance how many bytes you want to read from an I2C peripheral, or you can leave this open-ended and mark the last byte read. This is an advantage when you don't know in advance how many bytes you are going to want to read.
 
-## Compatibility
+## Polling
 
-Although so far I've only tested these routines on a couple of ATtiny chips, they should support all ATtiny chips with the USI peripheral, namely:
-
-* ATtiny 25/45/85
-* ATtiny 24/44/84
-* ATtiny 261/461/861
-* ATtiny 2313/4313
-* ATtiny 1634
-
-These routines are based on the code described by Atmel Application Note AVR310 "Using the USI module as a TWI Master".
+For simplicity these routines use polling rather than interrupts, so they won't interfere with other processes using interrupts.
 
 ## Description
 
-Here's a description of the TinyI2C routines:
+Here's a description of the minimal TinyI2C routines:
 
-### TinyI2C.start(address, type)
+#### TinyI2C.start(address, type)
 
-Starts a transaction with the slave device with the specified address, and specifies if the transaction is going to be a read or a write. It returns a true/false value to say whether the start was successful.
+Starts a transaction with the slave device at the specified address, and specifies if the transaction is going to be a read or a write. It returns true if the start was successful or false if there was an error.
 
-The **type** parameter can have the following values:
+The **type** parameter can have the following values:
 
 * 0: Write to the device.
-* 1 to 32767: Read from the device. The number specifies how many reads you are going to do.
+* 1 to 32767: Read from the device. The number specifies how many bytes you are going to read.
 * -1: Read an unspecified number of bytes from the device.
 
-If **type** is specified as -1 you must identify the last read by calling **TinyI2C.readLast()** rather than **TinyI2C.read()**.
+If **type** is specified as -1 you must identify the last byte read by calling **TinyI2C.readlast()** rather than  **TinyI2C.read()**.
 
-### TinyI2C.write(data)
+#### TinyI2C.write(data)
 
-Writes a byte of data to a slave device. It returns a true/false value to say whether the write was successful.
+Writes a byte of data to a slave device. It returns true if the write was successful or false if there was an error.
 
-### TinyI2C.read()
+#### TinyI2C.read()
 
-Returns the result of reading from a slave device.
+Reads a byte from a slave device and returns it.
 
-### TinyI2C.readLast()
+#### TinyI2C.readLast()
 
-Returns the result of reading from a slave device and tells the slave to stop sending. You only need to use **TinyI2C.readlast()** if you called **TinyI2C.start()** or **TinyI2C.restart()** with **type** set to -1.
+Reads a byte from a slave device and tells the slave to stop sending.
 
-### TinyI2C.restart(address, type);
+You only need to use **TinyI2C.readlast()** if you called **TinyI2C.start()** or **TinyI2C.restart()** with **type** set to -1.
 
-Does a restart. The **type** parameter is the same as for **TinyI2C.start()**.
+#### TinyI2C.restart(address, type);
 
-### TinyI2C.stop()
+Does a restart. The **type** parameter is the same as for  **TinyI2C.start()**.
 
-Ends the transaction.
+#### TinyI2C.stop()
 
-## Examples
+Ends the transaction; there's no return value.
 
-### Writing to a slave
+Every **TinyI2C.start()** should have a matching  **TinyI2C.stop()**.
 
-Writing to a slave is straightforward: for example, to write one byte:
+## Using the TinyI2C library
 
-    TinyI2C.start(Address, 0);
-    TinyI2C.write(byte);
-    TinyI2C.stop();
+To use the routines install the TinyI2C files in your libraries folder in your Arduino folder, and include this at the top of your program:
 
-### Reading from a slave
+    #include <TinyI2CMaster.h>
 
-The TinyI2C routines allow you to identify the last byte read from a slave in either of two ways:
+#### Pullup resistors
 
-You can specify the total number of bytes you are going to read, as the second parameter of **TinyI2C.start()**. With this approach **TinyI2C.read()** will automatically terminate the last call with a NAK:
+You must have pullup resistors on the SCL and SDA lines for I2C to work reliably; recommended values are 4.7kΩ or 10kΩ. On platforms where this is possible the TinyI2C routines turn on the internal pullups on the SCL and SDA lines as this can't do any harm, but you shouldn't rely on these.
 
-    TinyI2C.start(Address, 2);
-    int mins = TinyI2C.read();
-    int hrs = TinyI2C.read();
-    TinyI2C.stop();
+#### Writing to an I2C device
 
-Alternatively you can just specify the second parameter of **TinyI2C.start()** as -1, and explicitly identify the last **TinyI2C.read** command by calling **TinyI2C.readLast()**:
+Writing to an I2C device is straightforward: for example, to write one byte:
 
-    TinyI2C.start(Address, -1);
-    int mins = TinyI2C.read();
-    int hrs = TinyI2C.readLast();
-    TinyI2C.stop();
+````
+TinyI2C.start(Address, 0);
+TinyI2C.write(byte);
+TinyI2C.stop();
+````
+#### Reading from an I2C device
 
-### Writing and reading
+The TinyI2C routines allow you to identify the last byte read from an I2C device in either of two ways:
 
-Many I2C devices require you to write one or more bytes before reading, to specify the register you want to read from; the read should be introduced with an **TinyI2C.restart()** call; for example:
+You can specify the total number of bytes you are going to read, as the second parameter of **TinyI2C.start()**. With this approach **TinyI2C.read()** will automatically terminate the last call with a NAK:
 
-    TinyI2C.start(Address, 0);
-    TinyI2C.write(1);
-    TinyI2C.restart(Address, 2);
-    int mins = TinyI2C.read();
-    int hrs = TinyI2C.read();
-    TinyI2C.stop();
+````
+TinyI2C.start(Address, 2);
+int mins = TinyI2C.read();
+int hrs = TinyI2C.read();
+TinyI2C.stop();
+````
+
+Alternatively you can just specify the second parameter of **TinyI2C.start()** as -1, and explicitly identify the last **TinyI2C.read** command by calling **TinyI2C.readlast()**:
+
+````
+TinyI2C.start(Address, -1);
+int mins = TinyI2C.read();
+int hrs = TinyI2C.readLast();
+TinyI2C.stop();
+````
+
+#### Writing and reading
+
+Many I2C devices require you to write one or more bytes before reading, to specify the register you want to read from; the read should be introduced with a **TinyI2C.restart()** call; for example:
+
+````
+TinyI2C.start(Address, 0);
+TinyI2C.write(1);
+TinyI2C.restart(Address, 2);
+int mins = TinyI2C.read();
+int hrs = TinyI2C.read();
+TinyI2C.stop();
+````
