@@ -36,6 +36,8 @@ A new version of the TWI peripheral is featured in:
 * The 0-series ATmega chips, such as the ATmega4809.
 * The AVR DA and DB family, such as the AVR128DA48.
 
+These universal Tiny I2C routines provide master I2C support to all three generations of AVR processors.
+
 ## Differences from Arduino Wire
 
 I've named these routines TinyI2C for two reasons: to distinguish them from the existing Wire libraries, such as the ones included in the Arduino and Spence Konde's cores, and to emphasise that these routines don't follow the Arduino Wire library naming conventions.
