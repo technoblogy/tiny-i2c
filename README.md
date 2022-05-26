@@ -109,10 +109,6 @@ Every **TinyI2C.start()** should have a matching  **TinyI2C.stop()**.
 
 ## Using the TinyI2C library
 
-To use the routines install the TinyI2C files in your libraries folder in your Arduino folder, and include this at the top of your program:
-
-    #include <TinyI2CMaster.h>
-
 #### Pullup resistors
 
 You must have pullup resistors on the SCL and SDA lines for I2C to work reliably; recommended values are 4.7kΩ or 10kΩ. On platforms where this is possible the TinyI2C routines turn on the internal pullups on the SCL and SDA lines as this can't do any harm, but you shouldn't rely on these.
