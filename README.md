@@ -61,9 +61,7 @@ For simplicity these routines use polling rather than interrupts, so they won't 
 
 ## Description
 
-Get the TinyI2C Library from GitHub here: TinyI2C Library.
-
-Install it into your libraries folder in your Arduino folder and include this at the top of your program:
+Install TinyI2C into your libraries folder in your Arduino folder and include this at the top of your program:
 
     #include <TinyI2CMaster.h>
 
