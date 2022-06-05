@@ -1,6 +1,6 @@
-/* TinyI2C v2.0.0
+/* TinyI2C v2.0.1
 
-   David Johnson-Davies - www.technoblogy.com - Unreleased
+   David Johnson-Davies - www.technoblogy.com - 5th June 2022
    
    CC BY 4.0
    Licensed under a Creative Commons Attribution 4.0 International license: 
@@ -111,7 +111,7 @@ bool TinyI2CMaster::write (uint8_t data) {
 }
 
 // Start transmission by sending address
-bool TinyI2CMaster::start (uint8_t address, int readcount) {
+bool TinyI2CMaster::start (uint8_t address, int32_t readcount) {
   if (readcount != 0) { I2Ccount = readcount; readcount = 1; }
   uint8_t addressRW = address<<1 | readcount;
 
@@ -144,7 +144,7 @@ bool TinyI2CMaster::start (uint8_t address, int readcount) {
   return true;                                                    // Start successfully completed
 }
 
-bool TinyI2CMaster::restart(uint8_t address, int readcount) {
+bool TinyI2CMaster::restart(uint8_t address, int32_t readcount) {
   return TinyI2CMaster::start(address, readcount);
 }
 
@@ -209,7 +209,7 @@ bool TinyI2CMaster::write (uint8_t data) {
 }
 
 // Start transmission by sending address
-bool TinyI2CMaster::start (uint8_t address, int readcount) {
+bool TinyI2CMaster::start (uint8_t address, int32_t readcount) {
   bool read;
   if (readcount == 0) read = 0;                                   // Write
   else { I2Ccount = readcount; read = 1; }                        // Read
@@ -224,7 +224,7 @@ bool TinyI2CMaster::start (uint8_t address, int readcount) {
   else return (TWSR & 0xF8) == TWSR_MTX_ADR_ACK;
 }
 
-bool TinyI2CMaster::restart(uint8_t address, int readcount) {
+bool TinyI2CMaster::restart(uint8_t address, int32_t readcount) {
   return TinyI2CMaster::start(address, readcount);
 }
 
@@ -285,7 +285,7 @@ bool TinyI2CMaster::write (uint8_t data) {
 }
 
 // Start transmission by sending address
-bool TinyI2CMaster::start (uint8_t address, int readcount) {
+bool TinyI2CMaster::start (uint8_t address, int32_t readcount) {
   bool read;
   if (readcount == 0) read = 0;                                   // Write
   else { I2Ccount = readcount; read = 1; }                        // Read
@@ -302,7 +302,7 @@ bool TinyI2CMaster::start (uint8_t address, int readcount) {
   return true;                                                    // Return true if slave gave an ACK
 }
 
-bool TinyI2CMaster::restart(uint8_t address, int readcount) {
+bool TinyI2CMaster::restart(uint8_t address, int32_t readcount) {
   return TinyI2CMaster::start(address, readcount);
 }
 

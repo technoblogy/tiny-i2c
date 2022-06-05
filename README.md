@@ -7,6 +7,8 @@ For more information and examples see [Tiny I2C Routines for all AVR Microcontro
 
 The main difference between these routines and the standard Arduino Wire library is that these don't use buffers, so have much smaller memory requirements and don't impose a limit on transmissions.
 
+Version 2.0.1 increases the number of bytes you can specify in a single transfer.
+
 ## Compatibility
 These I2C routines are designed to provide master I2C functionality for all Microchip/Atmel AVR processors. Over the years different generations of AVR chips have featured three different, incompatible peripherals to handle I2C:
 
@@ -71,7 +73,7 @@ Starts a transaction with the slave device at the specified address, and specifi
 The **type** parameter can have the following values:
 
 * 0: Write to the device.
-* 1 to 32767: Read from the device. The number specifies how many bytes you are going to read.
+* 1 to 2147483647: Read from the device. The number specifies how many bytes you are going to read.
 * -1: Read an unspecified number of bytes from the device.
 
 If **type** is specified as -1 you must identify the last byte read by calling **TinyI2C.readlast()** rather than  **TinyI2C.read()**.
