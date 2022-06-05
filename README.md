@@ -1,6 +1,5 @@
 # TinyI2C Library
 
-## Description
 **TinyI2C** is a set of minimal I2C routines that allow just about any Microchip/Atmel AVR processor to connect to I2C peripherals.
 
 For more information and examples see [Tiny I2C Routines for all AVR Microcontrollers](http://www.technoblogy.com/show?3UF0).
@@ -64,7 +63,15 @@ For simplicity these routines use polling rather than interrupts, so they won't 
 
 ## Description
 
+Install TinyI2C into your libraries folder in your Arduino folder and include this at the top of your program:
+
+    #include <TinyI2CMaster.h>
+
 Here's a description of the minimal TinyI2C routines:
+
+#### TinyI2C.init()
+
+Initialises TinyI2C. This should be called in setup().
 
 #### TinyI2C.start(address, type)
 
@@ -103,10 +110,6 @@ Ends the transaction; there's no return value.
 Every **TinyI2C.start()** should have a matching  **TinyI2C.stop()**.
 
 ## Using the TinyI2C library
-
-To use the routines install the TinyI2C files in your libraries folder in your Arduino folder, and include this at the top of your program:
-
-    #include <TinyI2CMaster.h>
 
 #### Pullup resistors
 
