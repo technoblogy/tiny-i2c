@@ -4,7 +4,7 @@
 
 For more information and examples see [Tiny I2C Routines for all AVR Microcontrollers](http://www.technoblogy.com/show?3UF0).
 
-The main difference between these routines and the standard Arduino Wire library is that these don't use buffers, so have much smaller memory requirements and don't impose a limit on transmissions.
+The main difference between these routines and the standard Arduino Wire library is that these don't need to use buffers, so have much smaller memory requirements and don't impose a limit on transmissions.
 
 Version 2.0.1 increases the number of bytes you can specify in a single transfer.
 
