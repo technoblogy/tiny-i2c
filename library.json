@@ -10,7 +10,7 @@
 	"authors": [
 		{
 			"name": "David Johnson-Davies",
-			"email": "david@technoblogy.com ",
+			"email": "david@technoblogy.com",
 			"url": "https://github.com/technoblogy/tiny-i2c",
 			"maintainer": true
 		}
